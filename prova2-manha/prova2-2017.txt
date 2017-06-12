@@ -1,0 +1,91 @@
+Unilasalle-RJ - AV2
+Aluno: Juliana Loureiro Ferreira
+Prova Av2 de Laboratorio de Sistemas Operacionais
+Professor: Alex Salgado
+1o. Semestre de 2017   Turno: Manha
+--------------------------------------------------
+1-Faça um script shell que:
+- Pergunte por um nome e crie uma pasta e um arquivo.txt com o mesmo nome inserido.
+
+2-Quantos erros tem no script abaixo? Qual(is) são eles?
+case "$file" in
+    *.txt}
+        echo "É um arquivo de texto."
+        cat "$file"
+        
+    *.gif|*.jpg|*.png}
+        echo "É uma figura."
+        xloadimage "$file"
+        
+    *}
+        echo "Não sei que arquivo é esse."
+        
+esac
+
+3-Usando estrutura de repetição, faça um script para exibir todos os arquivos
+da pasta atual com tamanho maior que 500kb.
+
+4-Usando estrutura de repetição, faça um script para calcular e exibir quantas
+pastas e quantos arquivos tem na pasta atual.
+
+5-Faça um script que leia um numero IP e retorna se endereço responde ou não ao 
+comando ping.
+Além disso, se for digitado um ip vazio, o script deve informar ao usuario.
+
+Respostas aqui:
+1- 
+#!/bin/bash
+echo "Digite um nome"
+read nome
+mkdir $nome
+touch $nome.txt
+ 
+2- 
+2 ERROS
+
+- Ao invés de '}' deveria ser usado o ')'.
+- Está faltando o uso dos breaks  ;;
+
+3-
+#!/bin/bash
+for arq in $(ls .)
+do
+kb=$(wc -c < $arq)
+if [ $kb -gt 500 ]
+then 
+echo "$arq"
+fi
+done
+
+4-
+#!/bin/bash
+arq=0
+dir=0
+for file in $(ls .)
+do
+if [ -type d -name $file ]   
+then
+arq=$(( $arq + 1 ))
+else
+dir=$(( $dir + 1 ))
+fi
+done
+echo "Diretorios: $dir"
+echo "Arquivos: $arq"
+
+
+
+5-
+#!/bin/bash
+read numip
+if [ -z $numip ]; then
+echo "Ip nao informado"
+else
+ping -c 1 $numip
+        if [ $? -ne 0 ]; then
+        echo "site fora do ar"
+        else
+        echo "site no ar"
+        fi
+fi
+
